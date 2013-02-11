@@ -1,5 +1,6 @@
 # Mighty player #
 ----
+** Working demo can be found here [http://player.codemanki.com](http://player.codemanki.com) **
 
 Mighty player is a weekend project which goal was to develop some mashup based on [soundcloud](http://soundcloud.com)
 
@@ -7,9 +8,9 @@ It is a soundcloud based player, where instead of controlling the flow using bro
 
 Go ahead and try clicking Demo and then green "Use remote" button, scan QR code or enter short url on your mobile and CONTROL THE MIGHTY PLAYER :D
 
----
-# Used technologies #
 
+# Used technologies #
+---
 ### Server ###
 * node.js
 * nvm, upstart, npm
@@ -29,6 +30,7 @@ Go ahead and try clicking Demo and then green "Use remote" button, scan QR code 
 
 
 # TODO #
+---
 ### General TODO ###
 * Get rid of soundmanager2
 * Add require.js + assets manager
