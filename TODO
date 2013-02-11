@@ -1,5 +1,0 @@
-1) Add configurations and move client id from main.js there
-2) Add player status command, so remote can ask player about its current state
-3) Make prev and next to cycle through playlist
-4) Add cycle playing option.
-5) Volume
