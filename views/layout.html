@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Mighty player!</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+        <link rel="stylesheet" href="/stylesheets/bootstrap-responsive.css">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+
+		<script type="text/javascript">
+			var __isRemoteMode;
+			var __url;
+			var __remoteClientId;
+			var __env;
+			__isRemoteMode = <%= __isRemote %>;
+			__url = "<%= __url %>";
+			__env = "<%= __env %>";
+		</script>
+		
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+        <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.9.0.js"><\/script>')</script>
+        <script type="text/javascript" src="/javascripts/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		<script type="text/javascript" src="/javascripts/vendor/bootstrap.min.js"></script>
+    </head>
+    <body  id="mainHolder">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">Mighty player</a>
+					<div class="nav-collapse collapse">
+						<ul class="nav pull-right" data-bind="visible: isLoggedIn, if: isLoggedIn" style="display:none;">
+								<li><a href="#">Hello, <b data-bind="text: user().username">123</b></a></li>
+								<li><input type="button" class="btn btn-danger" data-bind="click: logout" value="Logout"/></li>
+						</ul>
+					</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+			<%= body %>
+        </div> <!-- /container -->
+
+		<!-- add minification -->
+		<script type="text/javascript" src="http://connect.soundcloud.com/sdk.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/javascripts/vendor/ko.js"></script>
+		<script type="text/javascript" src="/javascripts/vendor/ko.customBindings.js"></script>
+		<script type="text/javascript" src="/javascripts/vendor/jquery.cookie.js"></script>
+		<script type="text/javascript" src="/javascripts/vendor/soundmanager2.js"></script>
+		<script type="text/javascript" src="/javascripts/vendor/jquery.qrcode.min.js"></script>
+        <script type="text/javascript" src="/javascripts/main.js"></script>
+		<script type="text/javascript" src="/javascripts/helpers.js"></script>
+		<script type="text/javascript" src="/javascripts/hq.js"></script>
+		<script type="text/javascript" src="/javascripts/player.js"></script>
+		<script type="text/javascript" src="/javascripts/remote.js"></script>
+		<script type="text/javascript" src="/javascripts/soundkommander.js"></script>
+		
+		<script type="text/javascript" src="/javascripts/viewmodels/general.js"></script>
+		<script type="text/javascript" src="/javascripts/viewmodels/player.js"></script>
+		<script type="text/javascript" src="/javascripts/viewmodels/playlist.js"></script>
+		<script type="text/javascript" src="/javascripts/viewmodels/track.js"></script>
+		<script type="text/javascript" src="/javascripts/viewmodels/remote.js"></script>
+		<script type="text/javascript" src="/javascripts/sio.js"></script>
+		
+		<script type="text/javascript">
+			//MAD MAD! Because of weird loading system in google api, 
+			//and not to make the whole app dependent on one tiny lib, this was introduced
+			
+			var ongapiload = function(){
+				$(function(){
+				    gapi.client.setApiKey(getConfig("googleapikey"));
+				    gapi.client.load('urlshortener', 'v1');
+				});
+
+			};
+		</script>
+		
+		<script src="https://apis.google.com/js/client.js?onload=ongapiload"></script>
+
+		<%= __templates %>
+		
+		<div class="customTip"></div>
+    </body>
+</html>

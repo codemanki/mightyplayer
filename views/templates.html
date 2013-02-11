@@ -1,0 +1,155 @@
+<script type="text/html" id="main-template">
+	<div class="span12 pagination-centered">
+
+		<!-- ko if: loading -->
+			<img src="images/loader.gif" />
+		<!-- /ko -->
+	
+		<!-- ko if: isLoggedIn -->
+			<div class="useRemoteTitle"><a href="#myModal" role="button" class="btn brn-large btn-success" data-toggle="modal">Use remote</a></div>
+			<div id="playerHolder"></div>
+			<div data-bind="template:{name: 'player.share'}"/>
+		<!-- /ko -->
+	
+		<!-- ko ifnot: isLoggedIn -->
+			<img src="images/connect.png" class="cursorPointer" data-bind="click: login"/> OR <input type="button" class="btn btn-large btn-info" value="Demo" data-bind="click: demoLogin"/>
+		<!-- /ko -->
+	</div>
+</script>
+
+<script type="text/html" id="main-template-remote">
+	<div class="span12 pagination-centered">
+
+		<div data-bind="template: { name: 'remote.control'}" id="remoteControl"></div>
+	
+	</div>
+</script>
+
+<script type="text/html" id="player.general">
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="navbar">
+				<div class="navbar-inner pull-left" style="width: 94%">
+					<div class="container">
+						<div data-bind="text: playerTitle"></div>
+					    <div class="btn-toolbar">
+					    	<div class="btn-group">
+
+					    		<div class="btn" data-bind="click: function(model) { model.executeCommand({command:'prev'}); }"><i class="icon-fast-backward"></i></div>
+					    		<div class="btn" data-bind="click: function(model) { model.executeCommand({command:'play'}); }, visible: playerStatus() != 1"><i class="icon-play"></i></div>
+								<div class="btn" data-bind="click: function(model) { model.executeCommand({command:'pause'}); }, visible: playerStatus() == 1"><i class="icon-pause"></i></div>
+								<div class="btn" data-bind="click: function(model) { model.executeCommand({command:'stop'}); }, visible: playerStatus() == 1"><i class="icon-stop"></i></div>
+					    		<div class="btn" data-bind="click: function(model) { model.executeCommand({command:'next'}); }"><i class="icon-fast-forward"></i></div>
+					    	</div>
+					    </div>
+						
+					</div>
+					<div class="progressContainer" data-bind="visible: playerStatus() != -1">
+						<span class="trackProgress" data-bind="text:trackPositionReadable()"></span>
+				    	<div class="progress progress-striped span10 pointerCursor" width="60%" style="height: 20px;" data-bind="css: {active: playerStatus() == 1}, progressBarClick: progressBarClicked, progressBarHover: currentTrackDuration">
+				    	<div class="bar" data-bind="style: { width: trackProgressReadable() }"></div>
+				    	</div>
+						<span class="trackDuration" data-bind="text: currentTrackDurationReadable()">/span>
+					</div>
+				</div>
+			</div>
+			<div>
+				<!-- ko if: currentPlaylist -->
+					<div data-bind="template: {name:'player.playlist', data: currentPlaylist}"/>
+				<!-- /ko -->
+			</div>
+		</div>
+		<div class="span4" data-bind="template:{name:'playlists.section'}"/>
+	</div>
+</script>
+
+<script type="text/html" id="playlists.section">
+	<h3>Playlists</h3>
+	<!-- ko if: playlists().length > 0 -->
+	<table class="table">
+	<thead>
+		<th class="span4">Title</th>
+		<th class="span2">Tracks #</th>
+	</thead>
+	<tbody data-bind="foreach: playlists">
+		<tr data-bind="stripyClass: {isEven: $index()%2, oddClass: 'warning', evenClass: 'info'}, click: $parent.selectPlaylist" class="cursorPointer">
+			<td data-bind="text: title"></td>
+			<td data-bind="text: numberOfTracks()"></td>
+		</tr>
+	</tbody>
+	</table>
+	<!-- /ko -->
+	
+	<!-- ko if: playlists().length == 0 -->
+		<h4>No playlists. Create them on soundcloud and get back here!</h4>
+	<!-- /ko -->
+</script>
+
+<script type="text/html" id="player.playlist">
+	<h3 data-bind="text: readableTitle()"/>
+	
+	<!-- ko if: tracks().length > 0 -->
+	<table class="table table-striped">
+		<tbody data-bind="foreach: tracks">
+			<tr class="cursorPointer" data-bind="click: $root.selectTrack, css: {'success': ($root.currentTrack() && $root.currentTrack().trackId == trackId)}">
+				<td data-bind="text: (enabled ? title : 'Track [' + title + '] cannot be streamed. Check track settings') , style: {color:enabled ? '' : 'red'}"></td>
+				<td data-bind="text: readableDuration()" class="span1"></td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- /ko -->
+	
+	<!-- ko if: tracks().length == 0 -->
+		<h4>No tracks in playlist. Add them on soundcloud and get back here!</h4>
+	<!-- /ko -->
+</script>
+
+
+<script type="text/html" id="remote.control">
+<div class="row-fluid">
+	<div class="span6">
+		<div class="navbar">
+			<div class="navbar-inner pull-left" style="width: 94%">
+				<div class="container">
+					<h3 data-bind="text: statusReadable"></h3>
+				    <div class="btn-toolbar">
+			    	<div class="btn-group">
+
+			    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'prev'}); }"><i class="icon-fast-backward"></i></div>
+			    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'play'}); }, visible: status() != 1"><i class="icon-play"></i></div>
+						<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'pause'}); }, visible: status() == 1"><i class="icon-pause"></i></div>
+						<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'stop'}); }, visible: status() == 1"><i class="icon-stop"></i></div>
+			    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'next'}); }"><i class="icon-fast-forward"></i></div>
+			    	</div>
+				    	</div>
+				    </div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+
+<script type="text/html" id="player.share">
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Open remote control for player</h3>
+	</div>
+	<div class="modal-body" data-bind="if: shareUrl()">
+		<p>Type in this url on your mobile device</p>
+		<p><input type="text" data-bind="value: shareUrl()" class="span2"/></p>
+		<p>OR scan this qr code</p>
+		<div data-bind="qrCode: {width: 150, height: 150, text: shareUrl()}"></div>
+	</div>
+	<div class="modal-body" data-bind="ifnot: shareUrl()">
+		<p>Just a second! Our robots are generating url for you!</p>
+		<p><img src="images/loader.gif" /></p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	</div>
+</div>
+</script>

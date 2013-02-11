@@ -1,0 +1,57 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+.cursorPointer {
+	cursor: pointer;
+}
+
+.customTip {
+	display: none;
+    font-size: 10px;
+    padding: 5px;
+    position: absolute;
+    z-index: 100000;
+	border-radius: 3px 3px 3px 3px;
+    background-color: black;
+    color: white;
+    max-width: 200px;
+    padding: 5px 8px 4px;
+    text-align: center;
+}
+
+.progressContainer .trackProgress {
+	float:left;
+}
+
+.progressContainer .trackDuration {
+	float: right;
+}
+
+.progressContainer, .progressContainer .progress .bar, .progressContainer .progress {
+	height: 20px;
+	min-height: 20px;
+}
+
+.pointerCursor {
+	cursor: pointer;
+}
+
+.useRemoteTitle {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.connectButton {
+	background: url('/images/connect.png') no-repeat center center;
+	width: 242px;
+	height: 29px;
+	margin: 5px;
+}
+
+.connectButton {
+	background: url('/images/connect.png') no-repeat center center;
+	width: 242px;
+	height: 29px;
+	margin: 5px;
+}
