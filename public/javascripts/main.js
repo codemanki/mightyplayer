@@ -1,9 +1,9 @@
-window.Player = window.RemotePlayer || {};
+window.Player = window.Player || {};
 window.Player.config = {};
 //TODO: Move this to config file
 window.Player.config["clientId"] = __env == "development" ? "cb7f39c56528c597d6b35815228fa5c9" : "543e5304664d4b777895970d23fac7e9";
-window.Player.config["url"] = __env == "development" ? "http://192.168.1.101:8080/" : __url; 
-window.Player.config["siourl"] = __env == "development" ? "http://192.168.1.101/" : __url
+window.Player.config["url"] = __env == "development" ? "http://192.168.1.100:8080/" : __url; 
+window.Player.config["siourl"] = __env == "development" ? "http://192.168.1.100/" : __url
 window.Player.config["redirectURI"] = __url + "auth.html";
 window.Player.config["mainHolder"] = "mainHolder";
 window.Player.config["playerHolder"] = "playerHolder";
@@ -56,9 +56,9 @@ if (!Function.prototype.bind) {
 }
 
 $(function () {
-	if(getConfig("isRemoteMode")) {
-		window.Player.App = new Player.Remote();
-	} else {
-		window.Player.App = new Player.HQ();
-	}
+       if(getConfig("isRemoteMode")) {
+               window.Player.App = new Player.Remote();
+       } else {
+               window.Player.App = new Player.HQ();
+       }
 });
