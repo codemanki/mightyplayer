@@ -37,6 +37,7 @@ Go ahead and try clicking Demo and then green "Use remote" button, scan QR code 
 * Add configuration for express.js
 * Add custom playlist creation for SC
 * Improve design and ui
+* Finish INSTALL file, add info about capistrano and upstart
 
 
 ### Player TODO ###
