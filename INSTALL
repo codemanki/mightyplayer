@@ -1,0 +1,21 @@
+How to install mighty player
+// Since Node.js+Socket.io do not want to live in harmony with node.js all traffic from 80 port is redirected to 8080 (which is defined in app.js).
+1) Install prerequisites 
+	sudo apt-get install git upstart
+2) Install nvm (https://github.com/creationix/nvm)
+	curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+3) Install node.js (latest version)
+	nvm isntall 0.8.19
+	nvm use 0.8.19
+3) Execute
+	mkdir /var/www/
+	cd /var/www
+4) Fetch sources from repo
+	git clone https://github.com/codemanki/mightyplayer.git
+	cd mightyplayer/
+5) Install all dependencies
+	npm install
+6) Redirect traffic from 80 to 8080 port
+	iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
+7) Run (replace production with development if needed)
+	NODE_ENV=production node.app.js
