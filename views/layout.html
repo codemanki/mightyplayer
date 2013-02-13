@@ -24,10 +24,51 @@
 			__env = "<%= __env %>";
 		</script>
 		
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+
+       <!-- <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
         <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.9.0.min.js"><\/script>')</script>
         <script type="text/javascript" src="/javascripts/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-		<script type="text/javascript" src="/javascripts/vendor/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/javascripts/vendor/bootstrap.min.js"></script>-->
+		<script src="/javascripts/requirejs/require.js"></script>
+		<script type="text/javascript">
+		var gApiKey = "AIzaSyCysd95mg6dLF7_3MK2yzQ5vYvBqDS8GdY";
+		
+		requirejs.config({
+			baseUrl: "/javascripts/",
+			paths: {
+				'jquery': 'vendor/jquery',
+				'jcookie': 'vendor/jquery.cookie',
+				'jqrcode': 'vendor/jquery.qrcode',
+				'socketio': '../socket.io/socket.io',
+				'soundcloud': 'http://connect.soundcloud.com/sdk',
+				'soundmanager2' : 'vendor/soundmanager2'
+				'async': 'requirejs/async',
+				'goog': 'requirejs/goog',
+				'propertyParser': 'requirejs/propertyParser',
+			},
+		    shim: {
+		        'jcookie': ['jquery'],
+		        'jqrcode': ['jquery'],
+		        'soundmanager2': {
+		            exports: 'soundManager'
+		        }
+		    }
+		});
+		
+		require(["jquery", 
+				"jcookie", 
+				"jqrcode",
+				'soundcloud',
+				'socketio',
+				'goog!'+gApiKey+',urlshortener,v1',
+				], function($) {
+		    //the jquery.alpha.js and jquery.beta.js plugins have been loaded.
+			console.log("!");
+		    $(function() {
+		       // $('body').alpha().beta();
+		    });
+		});
+		</script>
     </head>
     <body  id="mainHolder">
         <!--[if lt IE 7]>
@@ -54,8 +95,8 @@
         </div> <!-- /container -->
 
 		<!-- add minification -->
-		<script type="text/javascript" src="http://connect.soundcloud.com/sdk.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<!--	@<script type="text/javascript" src="http://connect.soundcloud.com/sdk.js"></script>
+		@<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="/javascripts/vendor/ko.js"></script>
 		<script type="text/javascript" src="/javascripts/vendor/ko.customBindings.js"></script>
 		<script type="text/javascript" src="/javascripts/vendor/jquery.cookie.js"></script>
@@ -73,18 +114,15 @@
 		<script type="text/javascript" src="/javascripts/viewmodels/playlist.js"></script>
 		<script type="text/javascript" src="/javascripts/viewmodels/track.js"></script>
 		<script type="text/javascript" src="/javascripts/viewmodels/remote.js"></script>
-		<script type="text/javascript" src="/javascripts/sio.js"></script>
+		<script type="text/javascript" src="/javascripts/sio.js"></script>-->
 		
 		<script type="text/javascript">
 			//MAD MAD! Because of weird loading system in google api, 
 			//and not to make the whole app dependent on one tiny lib, this was introduced
 			
 			var ongapiload = function(){
-				$(function(){
-				    gapi.client.setApiKey(getConfig("googleapikey"));
-				    gapi.client.load('urlshortener', 'v1');
-				});
-
+			//	gapi.client.setApiKey(getConfig("googleapikey"));
+			//	gapi.client.load('urlshortener', 'v1');
 			};
 		</script>
 		

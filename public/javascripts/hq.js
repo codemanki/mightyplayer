@@ -203,6 +203,8 @@
 				onLoadCallback(); 
 			}
 		});
+		
+	   window.soundManager = soundManager;
 	};
 	
 	/*
