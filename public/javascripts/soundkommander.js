@@ -31,7 +31,7 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 
 		//TODO: This dependency should be moved somewhere
 		var getStreamUrl = function(track){
-			return track.stream_url + "?client_id=" + getConfig("clientId");
+			return track.stream_url + "?client_id=" + config.getConfig("clientId");
 		};
 		
 		soundManager.onready(function() {

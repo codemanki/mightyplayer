@@ -1,4 +1,4 @@
-define(['ko', 'customBindings'], function(ko) {
+define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewModel) {
 	/* Player contains playlists*/
 	var playerViewModel = function() {
 		var that = this;
@@ -54,7 +54,7 @@ define(['ko', 'customBindings'], function(ko) {
 		};
 		
 		this.addPlaylist = function(rawPlaylist) {
-			this.playlists.push(new Player.ViewModels.Playlist(rawPlaylist));
+			this.playlists.push(new PlaylistViewModel(rawPlaylist));
 		};
 		
 		//Lazy initialization for player

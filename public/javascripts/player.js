@@ -72,8 +72,8 @@ function($, ko, config, PlayerViewModel, SIO, SK, app){
 	/* 
 		Loads player. Right now only sio.
 	*/
-	player.prototype.load = function () {
-		this.sio.load({callback: receiveFromSIO.bind(this), token: app.getApp().clientId});
+	player.prototype.load = function (clientId) {
+		this.sio.load({callback: receiveFromSIO.bind(this), token: clientId});
 	};
 	
 	/* 

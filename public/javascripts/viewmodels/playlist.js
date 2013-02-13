@@ -1,4 +1,4 @@
-define(['ko', 'jquery', 'customBindings'], function(ko, $) {
+define(['jquery', 'ko', 'trackViewModel', 'customBindings'], function($, ko, TrackViewModel) {
 	var playlistViewModel = function(rawPlaylist) {
 		var that = this;
 		this.playlistId = rawPlaylist.id;
@@ -7,7 +7,7 @@ define(['ko', 'jquery', 'customBindings'], function(ko, $) {
 		this.uri = rawPlaylist.uri;	
 
 		this.addTrack = function(rawTrack) {
-			this.tracks.push(new Player.ViewModels.Track(rawTrack));
+			this.tracks.push(new TrackViewModel(rawTrack));
 		};
 
 		//TODO: When playlist edit option will be available, make this computable

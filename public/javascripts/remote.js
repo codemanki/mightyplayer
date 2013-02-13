@@ -29,7 +29,7 @@ define(["jquery", "ko", "config", "remoteViewModel", "sio"], function($, ko, con
 		});
 		
 		//Apply model
-		ko.applyBindings(this.remoteViewModel, $("#" + getConfig("mainHolder"))[0]);
+		ko.applyBindings(this.remoteViewModel, $("#" + config.getConfig("mainHolder"))[0]);
 	};
 	
 	var sendToSIO = function(options) {

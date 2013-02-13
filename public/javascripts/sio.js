@@ -1,4 +1,4 @@
-define(['socketio'], function(io) {
+define(['socketio', 'config'], function(io, config) {
 	
 	var sio = function(){};
 	/*
@@ -11,7 +11,7 @@ define(['socketio'], function(io) {
 	sio.prototype.load = function(params){ //optionscallback, token, isPlayer /*Dummy param*/
 		var that = this;
 		
-		this.socket = io.connect(getConfig("siourl"));
+		this.socket = io.connect(config.getConfig("siourl"));
 		this.socketToken = params.token;
 		this.params = params;
 		

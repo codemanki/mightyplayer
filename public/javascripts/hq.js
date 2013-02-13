@@ -133,7 +133,7 @@ function($, ko, config, Player, GeneralViewModel, soundManager){
 	
 
 	hq.prototype.afterHandShake = function () {
-		//this.getShareUrl();
+		this.getShareUrl();
 	};
 	
 	/* Private methods */
@@ -166,7 +166,7 @@ function($, ko, config, Player, GeneralViewModel, soundManager){
 			if(!that.player)
 				that.player = new Player(this.isDemoMode);
 				
-			that.player.load();
+			that.player.load(this.clientId);
 			that.player.initPlayer();
 			that.player.loadPlaylists(playlists);
 		};
