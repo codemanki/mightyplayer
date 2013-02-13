@@ -1,7 +1,6 @@
-(function(Player) {
-	Player.ViewModels = Player.ViewModels || {}; 
+define(['ko'], function(ko) {
 	
-	Player.ViewModels.Remote = function() {
+	var remoteViewModel = function() {
 		this.status = ko.observable(-1); // -3 loading -2 error, -1 stopped, 1 playing, 0 paused ; -1 - loading, -2 error, 1 playing, 2 paused, 3 stopped
 		this.playerTrack = ko.observable(null);
 		this.substatus = ko.observable("");
@@ -70,4 +69,5 @@
 		};
 	};
 	
-})(window.Player);
+	return remoteViewModel;
+});

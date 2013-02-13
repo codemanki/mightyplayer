@@ -1,7 +1,5 @@
-(function(Player){
-	Player.ViewModels = Player.ViewModels || {}; 
-	
-	Player.ViewModels.General = function(app) {
+define(['ko'], function(ko) {
+	var generalViewModel = function(app) {
 		var url = "";
 		
 		this.isLoggedIn = ko.observable(false);
@@ -23,4 +21,5 @@
 		};
 	};
 	
-})(window.Player);
+	return generalViewModel;
+});

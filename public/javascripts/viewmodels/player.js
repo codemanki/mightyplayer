@@ -1,8 +1,6 @@
-(function(Player) {
-	Player.ViewModels = Player.ViewModels || {}; 
-	
+define(['ko'], function(ko) {
 	/* Player contains playlists*/
-	Player.ViewModels.Player = function() {
+	var playerViewModel = function() {
 		var that = this;
 	
 		this.playlists = ko.observableArray([]); //all playlists
@@ -138,5 +136,5 @@
 			that.trackPosition(0);
 		};
 	};
-	
-})(window.Player);
+	return playerViewModel;
+});

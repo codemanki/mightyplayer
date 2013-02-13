@@ -1,7 +1,5 @@
-(function(Player) {
-	Player.ViewModels = Player.ViewModels || {}; 
-	
-	Player.ViewModels.Playlist = function(rawPlaylist) {
+define(['ko'], function(ko) {
+	var playlistViewModel = function(rawPlaylist) {
 		var that = this;
 		this.playlistId = rawPlaylist.id;
 		this.tracks = ko.observableArray([]);
@@ -41,4 +39,5 @@
 		});
 	};
 	
-})(window.Player);
+	return playlistViewModel;
+});
