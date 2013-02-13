@@ -60,9 +60,10 @@
 		    shim: {
 		        'jcookie': ['jquery'],
 		        'jqrcode': ['jquery'],
-				'bootstrap': {}
+				'bootstrap': {},
+				'helpers': {},
 				'modernizr': {
-					exports 'Modernizr'
+					exports: 'Modernizr'
 				},
 		        'soundmanager2': {
 		            exports: 'soundManager'
@@ -71,15 +72,13 @@
 		});
 		
 		require(["jquery", 
-				"jcookie", 
-				'soundcloud',
-				'socketio',
-				'goog!'+gApiKey+',urlshortener,v1',
-				], function($) {
+				"app",
+				"helpers"
+				//'goog!'+gApiKey+',urlshortener,v1',
+				], function($, app) {
 		    //the jquery.alpha.js and jquery.beta.js plugins have been loaded.
-			console.log("!");
 		    $(function() {
-		       // $('body').alpha().beta();
+		       	app.init();
 		    });
 		});
 		</script>

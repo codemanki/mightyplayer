@@ -1,28 +1,22 @@
-(function (Player, $) {
+define(["jquery", "ko", "config", "player", "generalViewModel", "soundmanager2", "jcookie", "soundcloud"], 
+function($, ko, config, Player, GeneralViewModel, soundManager){
 	/* 
 		Application constructor
 	*/
-	Player.HQ = function () {
+	var hq = function () {
 		var that = this;
-		this.generalViewModel = new Player.ViewModels.General(this);
+		this.generalViewModel = new GeneralViewModel(this);
 		this.player = null;
 		
 		load.call(this);
 		
 		initializeDependendencies.call(this, function () {
-			ko.applyBindings(that.generalViewModel, $("#" + getConfig("mainHolder"))[0]);
+			ko.applyBindings(that.generalViewModel, $("#" + config.getConfig("mainHolder"))[0]);
 			that.generalViewModel.loading(false);
 			that.resolveUserStatus();
 		});
 		
 		
-	};
-	/* 
-		Try to get demo data from cookies. 
-		If user was logged in as demo user and then reopened browser, do not make him to press Demo button again :)
-	*/
-	Player.HQ.prototype.checkForDemoMode = function () {
-		return $.cookie('is_demo') == "true" && $.cookie('access_token').length > 0;
 	};
 	
 	function load() {
@@ -33,11 +27,20 @@
 		this.shareUrl = null;
 		this.generalViewModel.user({});
 		this.generalViewModel.isLoggedIn(false);
+	};	
+	/* 
+		Try to get demo data from cookies. 
+		If user was logged in as demo user and then reopened browser, do not make him to press Demo button again :)
+	*/
+	hq.prototype.checkForDemoMode = function () {
+		return $.cookie('is_demo') == "true" && $.cookie('access_token').length > 0;
 	};
+	
+
 	/*
 		Try to retrieve user data.
 	*/
-	Player.HQ.prototype.resolveUserStatus = function () {
+	hq.prototype.resolveUserStatus = function () {
 		var that = this;
 		//Login and resolve user
 		SC.get('/me', function (user, error) { 
@@ -57,7 +60,7 @@
 	};
 	
 	/* Logs in user and inits interface changes */
-	Player.HQ.prototype.performLogin = function () {
+	hq.prototype.performLogin = function () {
 		var that = this;
 	    SC.connect(function () {
 	      SC.get("/me", function (user, error) {
@@ -67,11 +70,12 @@
 	      });
 	    });
 	};
+	
 	/* Logout user */
-	Player.HQ.prototype.performLogout = function () {
+	hq.prototype.performLogout = function () {
 		//Rethink this method
-		$.removeCookie('access_token', { path: getConfig("path") });
-		$.removeCookie('is_demo', { path: getConfig("path") });
+		$.removeCookie('access_token', { path: config.getConfig("path") });
+		$.removeCookie('is_demo', { path: config.getConfig("path") });
 		
 		this.player.unload();
 		load.call(this);
@@ -80,16 +84,16 @@
 		location.reload(true);
 	};
 	
-	Player.HQ.prototype.performDemoLogin = function (token) {
+	hq.prototype.performDemoLogin = function (token) {
 		this.isDemoMode = true;
-		userLoggedIn.call(this, {user: {username:getConfig("demologin")}, token: token || demoToken()});
+		userLoggedIn.call(this, {user: {username:config.getConfig("demologin")}, token: token || demoToken()});
 	};
 	
 	/* Loads user playlists from SC*/
-	Player.HQ.prototype.loadPlaylists = function (callback) {
+	hq.prototype.loadPlaylists = function (callback) {
 		var that = this;
 		if(this.isDemoMode) {
-			SC.get("/resolve", {url:getConfig("demoplaylist")}, function (playlist) {
+			SC.get("/resolve", {url: config.getConfig("demoplaylist")}, function (playlist) {
 				that.playlists = [playlist];
 				callback.call(that, that.playlists);
 			});
@@ -103,7 +107,7 @@
 		}
 	};
 	
-	Player.HQ.prototype.getShareUrl = function () {
+	hq.prototype.getShareUrl = function () {
 		//Because of awful google js api library, this hack with interval is introduced
 		var that = this;
 		
@@ -117,7 +121,7 @@
 		var getUrl = function () {
 	        var request = gapi.client.urlshortener.url.insert({
 			      'resource': {
-			          'longUrl': getConfig("url") + "r/" + that.clientId
+			          'longUrl': config.getConfig("url") + "r/" + that.clientId
 			      }
 			  });
 
@@ -127,11 +131,11 @@
 		}
 	};
 	
-	
-	
-	Player.HQ.prototype.afterHandShake = function () {
-		this.getShareUrl();
+
+	hq.prototype.afterHandShake = function () {
+		//this.getShareUrl();
 	};
+	
 	/* Private methods */
 	
 	/*
@@ -141,8 +145,8 @@
 		this.generalViewModel.user(options.user);
 		this.generalViewModel.isLoggedIn(true);
 		
-		$.cookie('access_token', options.token, { expires: getConfig("expires"), path: getConfig("path") });
-		$.cookie('is_demo', this.isDemoMode, { expires: getConfig("expires"), path: getConfig("path") });
+		$.cookie('access_token', options.token, { expires: config.getConfig("expires"), path: config.getConfig("path") });
+		$.cookie('is_demo', this.isDemoMode, { expires: config.getConfig("expires"), path: config.getConfig("path") });
 		
 		this.clientId = converTokenToCode(options.token);
 		afterUserLogin.call(this);
@@ -160,7 +164,7 @@
 		var initPlayer = function (playlists) {
 			
 			if(!that.player)
-				that.player = new Player.Player(this.isDemoMode);
+				that.player = new Player(this.isDemoMode);
 				
 			that.player.load();
 			that.player.initPlayer();
@@ -191,8 +195,8 @@
 		// Load SC object. If in demo mode, then do not pass any token. Default playlist will be loaded 
 	  	SC.initialize({
 			access_token: this.checkForDemoMode() ? "" : $.cookie('access_token'),
-	    	client_id: getConfig("clientId"),
-	    	redirect_uri: getConfig("redirectURI")
+	    	client_id: config.getConfig("clientId"),
+	    	redirect_uri: config.getConfig("redirectURI")
 	  	});
 	
 		soundManager.setup({
@@ -216,4 +220,5 @@
 		return token.slice(0,4) + token.slice(-3); // take token and get first 4 chars and last 3
 	};
 	
-})(window.Player, jQuery);
+	return hq;
+});
