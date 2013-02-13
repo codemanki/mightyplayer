@@ -1,16 +1,17 @@
-(function (Player, $) {
+define(["jquery", "ko", "config", "playerViewModel", "sio", "soundkommander", "app"], 
+function($, ko, config, PlayerViewModel, SIO, SK, app){
 	
 	/* View model items*/
-	Player.Player = function () {
+	var player = function () {
 		var that = this;
 		this.playerDiv = $();
 		this.playlists = [];
 		
-		this.playerViewModel = new Player.ViewModels.Player();
-		this.sio = new Player.SIO();
+		this.playerViewModel = new PlayerViewModel();
+		this.sio = new SIO();
 
 		// Load sound commander and pass callbacks. This should be refactored.
-		this.sk = new Player.SoundKommander({
+		this.sk = new SK({
 			onPlay: function (trackId) { 
 											console.log("Event from SK - onplay"); 
 											sendToSIO.call(that, "play", {trackId: trackId}); 
@@ -71,14 +72,14 @@
 	/* 
 		Loads player. Right now only sio.
 	*/
-	Player.Player.prototype.load = function () {
-		this.sio.load({callback: receiveFromSIO.bind(this), token: Player.App.clientId});
+	player.prototype.load = function (clientId) {
+		this.sio.load({callback: receiveFromSIO.bind(this), token: clientId});
 	};
 	
 	/* 
 		Unloads player, but doesn't detroy anything
 	*/
-	Player.Player.prototype.unload = function () {
+	player.prototype.unload = function () {
 		this.sio.unload();
 		this.sk.unload();
 		this.playlists = [];
@@ -89,16 +90,16 @@
 		This method is used for lazy player loading. 
 		Since ko parses all templates as soon as it loads them player should be initialized only after user login.
 	*/
-	Player.Player.prototype.initPlayer = function () {
+	player.prototype.initPlayer = function () {
 		//lazy template binding
-		this.playerDiv =  $("#" + getConfig("playerHolder"));
+		this.playerDiv =  $("#" + config.getConfig("playerHolder"));
 		ko.applyBindingsToNode(this.playerDiv[0], { template: { name: 'player.general'} }, this.playerViewModel);
 	};
 	
 	/* 
 		Metod gets playlists from SC and passes them to viewmodel and draws player ui.
 	*/
-	Player.Player.prototype.loadPlaylists = function (playlists) {
+	player.prototype.loadPlaylists = function (playlists) {
 		var that = this;
 		that.playlists = playlists;
 		
@@ -168,5 +169,7 @@
 		}
 		
 		return toDump;
-	}
-})(window.Player, jQuery);
+	};
+	
+	return player;
+});

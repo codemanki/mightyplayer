@@ -1,7 +1,5 @@
-(function(Player) {
-	Player.ViewModels = Player.ViewModels || {}; 
-	
-	Player.ViewModels.Playlist = function(rawPlaylist) {
+define(['jquery', 'ko', 'trackViewModel', 'customBindings'], function($, ko, TrackViewModel) {
+	var playlistViewModel = function(rawPlaylist) {
 		var that = this;
 		this.playlistId = rawPlaylist.id;
 		this.tracks = ko.observableArray([]);
@@ -9,7 +7,7 @@
 		this.uri = rawPlaylist.uri;	
 
 		this.addTrack = function(rawTrack) {
-			this.tracks.push(new Player.ViewModels.Track(rawTrack));
+			this.tracks.push(new TrackViewModel(rawTrack));
 		};
 
 		//TODO: When playlist edit option will be available, make this computable
@@ -41,4 +39,5 @@
 		});
 	};
 	
-})(window.Player);
+	return playlistViewModel;
+});

@@ -1,7 +1,6 @@
-(function(Player) {
-	Player.ViewModels = Player.ViewModels || {}; 
+define(['ko', 'customBindings'], function(ko) {
 	
-	Player.ViewModels.Track = function(rawTrack) {
+	var trackViewModel = function(rawTrack) {
 		this.enabled = rawTrack.streamable;
 		this.title = rawTrack.title;
 		this.permalink_url = rawTrack.permalink_url;
@@ -14,4 +13,5 @@
 		};
 	};
 	
-})(window.Player);
+	return trackViewModel;
+});

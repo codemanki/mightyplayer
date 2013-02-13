@@ -1,8 +1,6 @@
-(function(Player) {
-	Player.ViewModels = Player.ViewModels || {}; 
-	
+define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewModel) {
 	/* Player contains playlists*/
-	Player.ViewModels.Player = function() {
+	var playerViewModel = function() {
 		var that = this;
 	
 		this.playlists = ko.observableArray([]); //all playlists
@@ -56,7 +54,7 @@
 		};
 		
 		this.addPlaylist = function(rawPlaylist) {
-			this.playlists.push(new Player.ViewModels.Playlist(rawPlaylist));
+			this.playlists.push(new PlaylistViewModel(rawPlaylist));
 		};
 		
 		//Lazy initialization for player
@@ -138,5 +136,5 @@
 			that.trackPosition(0);
 		};
 	};
-	
-})(window.Player);
+	return playerViewModel;
+});

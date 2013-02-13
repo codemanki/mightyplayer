@@ -15,22 +15,62 @@
         <link rel="stylesheet" href="/stylesheets/main.css">
 
 		<script type="text/javascript">
-			var __isRemoteMode;
-			var __url;
-			var __remoteClientId;
-			var __env;
-			__isRemoteMode = <%= __isRemote %>;
-			__url = "<%= __url %>";
-			__env = "<%= __env %>";
+			/* Dumped values from server. There is no way how to remove them*/
+			var __isRemoteMode = <%= __isRemote %>;
+			var __url = "<%= __url %>";
+			var __remoteClientId; //located in templates
+			var __env = "<%= __env %>";
 		</script>
 		<script type="text/javascript">
 		(function(a,c){a.__qbaka_eh=a.onerror;a.__qbaka_reports=[];a.onerror=function(){a.__qbaka_reports.push(arguments);if(a.__qbaka_eh)try{a.__qbaka_eh.apply(a,arguments)}catch(b){}};a.onerror.qbaka=1;a.qbaka={report:function(){},customParams:{},set:function(a,b){qbaka.customParams[a]=b},exec:function(a){try{a()}catch(b){qbaka.reportException(b)}},reportException:function(){}};var b=c.createElement("script"),e=c.getElementsByTagName("script")[0],d=function(){e.parentNode.insertBefore(b,e)};b.id="qbaka";b.type="text/javascript";b.async=!0;b.src="//cdn.qbaka.net/reporting.js";"[object Opera]"==a.opera?c.addEventListener("DOMContentLoaded",d):d();qbaka.key="aa4785c8c56aa31a9b027862fa0dc58f"})(window,document);qbaka.options={autoStacktrace:1,trackEvents:1};
 		</script>
 		
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
-        <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.9.0.min.js"><\/script>')</script>
-        <script type="text/javascript" src="/javascripts/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-		<script type="text/javascript" src="/javascripts/vendor/bootstrap.min.js"></script>
+		<script src="/javascripts/requirejs/require.js"></script>
+		
+		<script type="text/javascript">
+		requirejs.config({
+			baseUrl: "/javascripts/",
+			paths: {
+				/* vendor*/
+				'jquery': 'vendor/jquery',
+				'jcookie': 'vendor/jquery.cookie',
+				'jqrcode': 'vendor/jquery.qrcode',
+				'customBindings': 'vendor/ko.customBindings',
+				'ko': 'vendor/ko',
+				'soundmanager2' : 'vendor/soundmanager2',
+				'modernizr': 'vendor/modernizr',
+				'bootstrap': 'vendor/bootstrap',
+				'socketio': '../socket.io/socket.io',
+				'soundcloud': 'http://connect.soundcloud.com/sdk',
+				'async': 'requirejs/async',
+				/* Viewmodels */
+				'generalViewModel': 'viewmodels/general',
+				'playerViewModel': 'viewmodels/player',
+				'playlistViewModel': 'viewmodels/playlist',
+				'remoteViewModel': 'viewmodels/remote',
+				'trackViewModel': 'viewmodels/track',
+			},
+		    shim: {
+		        'jcookie': ['jquery'],
+		        'jqrcode': ['jquery'],
+				'bootstrap': {},
+				'helpers': {},
+				'modernizr': {
+					exports: 'Modernizr'
+				},
+		        'soundmanager2': {
+		            exports: 'soundManager'
+		        }
+		    }
+		});
+		
+		require(["jquery", "app", "helpers", "modernizr","bootstrap" ], function($, app) {
+		    $(function() {
+		       	app.init();
+		    });
+		});
+		
+		</script>
     </head>
     <body  id="mainHolder">
         <!--[if lt IE 7]>
@@ -56,38 +96,13 @@
 			<%= body %>
         </div> <!-- /container -->
 
-		<!-- add minification -->
-		<script type="text/javascript" src="http://connect.soundcloud.com/sdk.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="/javascripts/vendor/ko.js"></script>
-		<script type="text/javascript" src="/javascripts/vendor/ko.customBindings.js"></script>
-		<script type="text/javascript" src="/javascripts/vendor/jquery.cookie.js"></script>
-		<script type="text/javascript" src="/javascripts/vendor/soundmanager2.js"></script>
-		<script type="text/javascript" src="/javascripts/vendor/jquery.qrcode.min.js"></script>
-        <script type="text/javascript" src="/javascripts/main.js"></script>
-		<script type="text/javascript" src="/javascripts/helpers.js"></script>
-		<script type="text/javascript" src="/javascripts/hq.js"></script>
-		<script type="text/javascript" src="/javascripts/player.js"></script>
-		<script type="text/javascript" src="/javascripts/remote.js"></script>
-		<script type="text/javascript" src="/javascripts/soundkommander.js"></script>
-		
-		<script type="text/javascript" src="/javascripts/viewmodels/general.js"></script>
-		<script type="text/javascript" src="/javascripts/viewmodels/player.js"></script>
-		<script type="text/javascript" src="/javascripts/viewmodels/playlist.js"></script>
-		<script type="text/javascript" src="/javascripts/viewmodels/track.js"></script>
-		<script type="text/javascript" src="/javascripts/viewmodels/remote.js"></script>
-		<script type="text/javascript" src="/javascripts/sio.js"></script>
 		
 		<script type="text/javascript">
-			//MAD MAD! Because of weird loading system in google api, 
-			//and not to make the whole app dependent on one tiny lib, this was introduced
-			
+			//Require.js cannot properly handle this new js api, even with require-plugins and goog.
+			//TODO: Remove this
 			var ongapiload = function(){
-				$(function(){
-				    gapi.client.setApiKey(getConfig("googleapikey"));
-				    gapi.client.load('urlshortener', 'v1');
-				});
-
+				gapi.client.setApiKey("AIzaSyCysd95mg6dLF7_3MK2yzQ5vYvBqDS8GdY");
+				gapi.client.load('urlshortener', 'v1');
 			};
 		</script>
 		

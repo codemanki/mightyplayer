@@ -1,4 +1,4 @@
-(function(Player, $){
+define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 	
 	var events = {
 		onPlay: function(track){ },
@@ -8,7 +8,7 @@
 		onPlaying: function(track){ }
 	};
 	
-	Player.SoundKommander = function(eventsCallbacks) {
+	var sk = function(eventsCallbacks) {
 		this.playlist = null;
 		this.state = {status:"stopped", currentSong: null};
 		this.currentTrackInfo = {id: null, time: null};
@@ -18,8 +18,7 @@
 		
 	};
 	
-	var sk = Player.SoundKommander; //just shortcut :)
-	
+
 	/* 
 		Method receives playlist and onready callback. Inits playlist's songs to soundmanager and fires onReady callback
 	*/
@@ -32,7 +31,7 @@
 
 		//TODO: This dependency should be moved somewhere
 		var getStreamUrl = function(track){
-			return track.stream_url + "?client_id=" + getConfig("clientId");
+			return track.stream_url + "?client_id=" + config.getConfig("clientId");
 		};
 		
 		soundManager.onready(function() {
@@ -306,4 +305,5 @@
 		return result;
 	}
 	
-})(window.Player, jQuery);
+	return sk;
+});
