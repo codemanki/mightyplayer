@@ -1,4 +1,4 @@
-define(['ko'], function(ko) {
+define(['ko', 'jquery', 'customBindings'], function(ko, $) {
 	var playlistViewModel = function(rawPlaylist) {
 		var that = this;
 		this.playlistId = rawPlaylist.id;

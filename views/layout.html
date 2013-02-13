@@ -36,19 +36,34 @@
 		requirejs.config({
 			baseUrl: "/javascripts/",
 			paths: {
+				/* vendor*/
 				'jquery': 'vendor/jquery',
 				'jcookie': 'vendor/jquery.cookie',
 				'jqrcode': 'vendor/jquery.qrcode',
+				'customBindings': 'vendor/ko.customBindings',
+				'ko': 'vendor/ko',
+				'soundmanager2' : 'vendor/soundmanager2',
+				'modernizr': 'vendor/modernizr',
+				'bootstrap': 'vendor/bootstrap',
 				'socketio': '../socket.io/socket.io',
 				'soundcloud': 'http://connect.soundcloud.com/sdk',
-				'soundmanager2' : 'vendor/soundmanager2'
 				'async': 'requirejs/async',
 				'goog': 'requirejs/goog',
 				'propertyParser': 'requirejs/propertyParser',
+				/* Viewmodels */
+				'generalViewModel': 'viewmodels/general',
+				'playerViewModel': 'viewmodels/player',
+				'playlistViewModel': 'viewmodels/playlist',
+				'remoteViewModel': 'viewmodels/remote',
+				'trackViewModel': 'viewmodels/track',
 			},
 		    shim: {
 		        'jcookie': ['jquery'],
 		        'jqrcode': ['jquery'],
+				'bootstrap': {}
+				'modernizr': {
+					exports 'Modernizr'
+				},
 		        'soundmanager2': {
 		            exports: 'soundManager'
 		        }
@@ -57,7 +72,6 @@
 		
 		require(["jquery", 
 				"jcookie", 
-				"jqrcode",
 				'soundcloud',
 				'socketio',
 				'goog!'+gApiKey+',urlshortener,v1',

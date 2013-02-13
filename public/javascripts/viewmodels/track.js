@@ -1,4 +1,4 @@
-define(['ko'], function(ko) {
+define(['ko', 'customBindings'], function(ko) {
 	
 	var trackViewModel = function(rawTrack) {
 		this.enabled = rawTrack.streamable;

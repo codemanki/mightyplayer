@@ -1,4 +1,4 @@
-define(['ko'], function(ko){
+define(['ko', 'jqrcode'], function(ko){
 	ko.bindingHandlers.stripyClass = {
 	    init: function(element, valueAccessor) {
 			var options = valueAccessor();

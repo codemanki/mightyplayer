@@ -1,4 +1,4 @@
-define(['ko'], function(ko) {
+define(['ko', 'customBindings'], function(ko) {
 	var generalViewModel = function(app) {
 		var url = "";
 		

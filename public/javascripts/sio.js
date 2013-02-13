@@ -1,5 +1,6 @@
-(function(Player, $){
-	Player.SIO = function(){};
+define(['socketio'], function(io) {
+	
+	var sio = function(){};
 	/*
 		Loads socket.io and callbacks. 
 		params:
@@ -7,7 +8,7 @@
 			-Token is a clientId.
 			-callbackAfterHandshake will be called when sio received token
 	*/
-	Player.SIO.prototype.load = function(params){ //optionscallback, token, isPlayer /*Dummy param*/
+	sio.prototype.load = function(params){ //optionscallback, token, isPlayer /*Dummy param*/
 		var that = this;
 		
 		this.socket = io.connect(getConfig("siourl"));
@@ -38,7 +39,7 @@
 	/* 
 		To properly disconnect.
 	*/
-	Player.SIO.prototype.unload = function() {
+	sio.prototype.unload = function() {
 		this.socket.disconnect();
 	};
 	
@@ -47,7 +48,7 @@
 		Command is a string.
 		Data - hash.
 	*/
-	Player.SIO.prototype.executeCommand = function(command, data) {
+	sio.prototype.executeCommand = function(command, data) {
 		//merge
 		data["command"] = command;
 		data["token"] = this.socketToken;
@@ -56,4 +57,5 @@
 		console.log("emmiting", data, this.socket);
 	};
 	
-})(window.Player, jQuery);
+	return sio;
+});

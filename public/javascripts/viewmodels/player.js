@@ -1,4 +1,4 @@
-define(['ko'], function(ko) {
+define(['ko', 'customBindings'], function(ko) {
 	/* Player contains playlists*/
 	var playerViewModel = function() {
 		var that = this;
