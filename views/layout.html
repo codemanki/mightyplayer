@@ -26,8 +26,19 @@
 		</script>
 		
 		<script src="/javascripts/requirejs/require.js"></script>
-		
 		<script type="text/javascript">
+		//Fancy loader \m/
+		window.require = (function(){
+		    var orig_require = window.require;
+		    return function(_list, _callback) {
+		        var callback_fn = function(_args){ _callback.apply(null, _args); }
+	            orig_require.call(null, _list, function(){
+					document.getElementById("progress").style.display = "none";
+	                callback_fn(arguments);
+	            });
+		    }
+		})();
+		
 		requirejs.config({
 			baseUrl: "/javascripts/",
 			paths: {
@@ -93,6 +104,7 @@
         </div>
 
         <div class="container">
+			<img src="images/loader.gif" id="progress"/>
 			<%= body %>
         </div> <!-- /container -->
 
