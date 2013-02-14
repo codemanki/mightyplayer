@@ -1,4 +1,5 @@
 var deps = ["config"];
+
 if(__isRemoteMode) //get rid of this hack
 {
 	deps.push("remote");
@@ -7,6 +8,7 @@ else
 {
 	deps.push("hq");
 }
+
 define(deps, function (config, HEART) {
     var app;
 
