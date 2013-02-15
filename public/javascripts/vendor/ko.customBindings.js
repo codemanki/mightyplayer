@@ -56,4 +56,53 @@ define(['ko', 'jqrcode'], function(ko){
 	        }
 	    }
 	};
+	
+	var setVolume = function(btns, volumetoSet){
+		btns.removeClass("btn-primary");
+		
+		$.each(btns, function(){
+			var volume = $(this).data("set");
+			
+			if(volume != "up" && volume != "down")
+			{
+				if(volume <= volumetoSet) {
+					$(this).addClass("btn-primary");
+				}
+			}
+		});
+	};
+	
+	ko.bindingHandlers.volumeControl = {
+		init: function(element, valueAccessor, _, viewModel){
+			var options = valueAccessor();
+			var btns = $(element).find(".btn");
+						//{volume: currentVolumeLevel(), decrease: volumeDown, increase: volumeUp}
+			btns.on("click", function(){
+				var toSet = $(this).data("set");
+				var currentVolume = options.volume;
+				var _v = parseInt(toSet);
+				
+				if(toSet == "up" || toSet == "down") {
+					_v = options.volume();
+					
+					if(toSet == "up"){
+						_v = (_v + 1 > 5 ? 5 : _v + 1 );
+					}
+					if(toSet == "down"){
+						_v = (_v - 1 < 0 ? 0 : _v -  1 );
+					}
+				}
+				
+				options.volume(_v);
+			});
+		
+			//and set volume from view model
+			setVolume(btns, options.volume());
+		},
+		update: function(element, valueAccessor, _, viewModel){
+			var options = valueAccessor();
+			var btns = $(element).find(".btn");
+			setVolume(btns, options.volume());
+		}
+	}
 });

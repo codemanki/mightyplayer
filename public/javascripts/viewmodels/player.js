@@ -10,6 +10,8 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 		this.executeCommand = ko.observable({command: null, data: null}); //event for objects to subscribe for changes on ui
 		this.trackPosition = ko.observable(0); //if player is playing, onplay event dumps current track duration here
 		
+		this.currentVolumeLevel = ko.observable(3);
+		
 		//Return track position in readabale format e.g. 02:12
 		this.trackPositionReadable = ko.computed(function() {
 			return readableDuration(that.trackPosition());
@@ -129,11 +131,12 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 			Clears data in model, so it can be refreshed
 		*/
 		this.unload = function() {
-			that.playlists([]);
-			that.currentPlaylist(null);
-			that.playerStatus(null);
-			that.executeCommand({command: null, data: null});
-			that.trackPosition(0);
+			this.playlists([]);
+			this.currentPlaylist(null);
+			this.playerStatus(null);
+			this.executeCommand({command: null, data: null});
+			this.trackPosition(0);
+			//this.currentVolumeLevel(3); think about it
 		};
 	};
 	return playerViewModel;

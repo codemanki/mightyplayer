@@ -9,7 +9,7 @@ function($, ko, config, PlayerViewModel, SIO, SK, app){
 		
 		this.playerViewModel = new PlayerViewModel();
 		this.sio = new SIO();
-
+		
 		// Load sound commander and pass callbacks. This should be refactored.
 		this.sk = new SK({
 			onPlay: function (trackId) { 

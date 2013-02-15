@@ -33,6 +33,7 @@
 					<div class="container">
 						<div data-bind="text: playerTitle"></div>
 					    <div class="btn-toolbar">
+
 					    	<div class="btn-group">
 
 					    		<div class="btn" data-bind="click: function(model) { model.executeCommand({command:'prev'}); }"><i class="icon-fast-backward"></i></div>
@@ -51,6 +52,7 @@
 				    	</div>
 						<span class="trackDuration" data-bind="text: currentTrackDurationReadable()">/span>
 					</div>
+					<div data-bind="template: {name: 'volumeControl'}"/>
 				</div>
 			</div>
 			<div>
@@ -131,6 +133,20 @@
 </div>
 </script>
 
+<script type="text/html" id="volumeControl">
+<div class="volumeContainer" data-bind="volumeControl: {volume: currentVolumeLevel}">
+	<span>Volume:</span>
+	<div class="btn-group">
+		<div class="btn" data-set="down"><i class="icon-minus"></i></div>
+		<div class="btn" data-set="1">1</div>
+		<div class="btn" data-set="2">2</div>
+		<div class="btn" data-set="3">3</div>
+		<div class="btn" data-set="4">4</div>
+		<div class="btn" data-set="5">5</div>
+		<div class="btn" data-set="up"><i class="icon-plus"></i></div>
+	</div>
+</div>
+</script>
 
 <script type="text/html" id="player.share">
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

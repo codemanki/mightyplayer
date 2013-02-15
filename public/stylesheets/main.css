@@ -55,3 +55,13 @@ body {
 	height: 29px;
 	margin: 5px;
 }
+
+.volumeContainer {
+	margin: 10px;
+	width: 300px;
+	float: right;
+}
+.volumeContainer span{
+	display:inline-block; 
+	vertical-align: middle;
+}
