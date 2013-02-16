@@ -37,6 +37,7 @@ function($, ko, config, PlayerViewModel, SIO, SK, app){
 											},
 			onSetVolume: function(volume){
 				setVolume.call(that, volume);
+				sendToSIO.call(that, "setVolume", {volume: volume}); 
 				that.playerViewModel.receiveCommand("setVolume", {volume: volume});
 			},
 		});
