@@ -132,7 +132,6 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 		
 		var playing = function(options) {
 			this.trackPosition(options.position);
-
 		};	
 		
 		var selectTrackById = function(trackId) {

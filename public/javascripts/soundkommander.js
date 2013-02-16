@@ -16,7 +16,6 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 		this.tracks = [];
 		this.events = $.extend({}, events);
 		$.extend(this.events, eventsCallbacks);
-		
 	};
 	
 
@@ -61,7 +60,7 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 						that.events.onStop(this.id);
 					},
 					whileplaying: function(){
-						that.events.onPlaying(this.id, {position: this.position, duration: track.__duration, volume: volumeToLevel(this.volume)});
+						that.events.onPlaying(this.id, {position: this.position, duration: track.__duration});
 					},
 					onfinish: function(){
 						if(that.currentTrack == that.tracks.length - 1){

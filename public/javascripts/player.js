@@ -33,7 +33,6 @@ function($, ko, config, PlayerViewModel, SIO, SK, app){
 											that.playerViewModel.receiveCommand("stop"); 
 										},
 			onPlaying: function (trackId, options) { 
-											playing.call(that, options);
 											that.playerViewModel.receiveCommand("playing", options);
 											},
 			onSetVolume: function(volume){
