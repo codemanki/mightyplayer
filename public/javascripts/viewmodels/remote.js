@@ -1,35 +1,37 @@
 define(['ko', 'customBindings'], function(ko) {
 	var remoteViewModel = function() {
+		var that = this;
 		this.status = ko.observable(-1); // -3 loading -2 error, -1 stopped, 1 playing, 0 paused ; -1 - loading, -2 error, 1 playing, 2 paused, 3 stopped
 		this.playerTrack = ko.observable(null);
 		this.substatus = ko.observable("");
 		this.isLoggedIn = ko.observable(false); //to support general layout
 		this.executeCommand = ko.observable({command: null, data: null});
+		this.volume = ko.observable(3);
 		
 		this.statusReadable = ko.computed(function() {
 			var status = "Status: [";
 			if(this.playerTrack())
-				status = this.playerTrack()+" [";
+				status = this.playerTrack() + " [";
 				
 			switch(this.status()) {
 				case -3:
-					status+="Loading...";
+					status += "Loading...";
 				break;
 				
 				case -2:
-					status+= "Some error occured. Here is description: " + this.substatus();
+					status += "Some error occured. Here is description: " + this.substatus();
 				break;
 				
 				case 1:
-					status+= "Playing..."
+					status += "Playing..."
 				break;
 				
 				case 0:
-					status+= "Paused"
+					status += "Paused"
 				break;
 				
 				case -1:
-					status+= "Nothing is playing"
+					status += "Nothing is playing"
 				break;
 			}
 			
@@ -59,12 +61,20 @@ define(['ko', 'customBindings'], function(ko) {
 				case "playerStateDumped":
 					this.status(options.dump.state.status);
 				break;
+				
+				case "setVolume":
+					this.volume(options.volume);
+				break;
 			}
 			console.log(options);
 			
 			if(options && options.dump) {
 				this.playerTrack(options.dump.state.trackTitle);
 			}
+		};
+		
+		this.triggerVolumeChange = function(){
+			that.executeCommand({command: "setVolume", data: {volume: this.volume()}});
 		};
 	};
 	

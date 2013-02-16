@@ -115,17 +115,17 @@
 				<div class="container">
 					<h3 data-bind="text: statusReadable"></h3>
 				    <div class="btn-toolbar">
-			    	<div class="btn-group">
+			    		<div class="btn-group">
 
-			    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'prev'}); }"><i class="icon-fast-backward"></i></div>
-			    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'play'}); }, visible: status() != 1"><i class="icon-play"></i></div>
-						<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'pause'}); }, visible: status() == 1"><i class="icon-pause"></i></div>
-						<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'stop'}); }, visible: status() == 1"><i class="icon-stop"></i></div>
-			    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'next'}); }"><i class="icon-fast-forward"></i></div>
-			    	</div>
-				    	</div>
+				    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'prev'}); }"><i class="icon-fast-backward"></i></div>
+				    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'play'}); }, visible: status() != 1"><i class="icon-play"></i></div>
+							<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'pause'}); }, visible: status() == 1"><i class="icon-pause"></i></div>
+							<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'stop'}); }, visible: status() == 1"><i class="icon-stop"></i></div>
+				    		<div class="btn btn-large" data-bind="click: function(model) { model.executeCommand({command:'next'}); }"><i class="icon-fast-forward"></i></div>
+			    		</div>
 				    </div>
-				
+				 </div>
+				<div data-bind="template: {name: 'volumeControl'}"/>
 				</div>
 			</div>
 		</div>

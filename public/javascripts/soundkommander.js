@@ -1,6 +1,7 @@
 define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 	
 	var events = {
+		onSetVolume: function(volume){ },
 		onPlay: function(track){ },
 		onPause: function(track){ },
 		onResume: function(track){ },
@@ -122,7 +123,6 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 		//We cannot perform anything, if there are no tracks
 		if(this.tracks.length == 0)
 			return;
-			
 		switch (command) {
 			case "play":
 				play.call(this);
@@ -162,16 +162,19 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 	function volumeToLevel(value){
 		return ~~(value/20)
 	};
+	
 	function volume(newValue){
 		if(newValue === undefined)
 			return volumeToLevel(this.volume);
 		
 		if(newValue >= 0 && newValue <= 5){
 			this.volume = newValue * 20;
-			
+
 			if(this.status != -1){
 				this.tracks[this.currentTrack].setVolume(this.volume);
 			}
+			
+			this.events.onSetVolume(newValue);
 		}
 	}
 	

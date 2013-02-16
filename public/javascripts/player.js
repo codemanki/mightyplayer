@@ -32,9 +32,14 @@ function($, ko, config, PlayerViewModel, SIO, SK, app){
 											sendToSIO.call(that, "stop"); 
 											that.playerViewModel.receiveCommand("stop"); 
 										},
-			onPlaying: function (trackId, options) {  
+			onPlaying: function (trackId, options) { 
+											playing.call(that, options);
 											that.playerViewModel.receiveCommand("playing", options);
-											}
+											},
+			onSetVolume: function(volume){
+				setVolume.call(that, volume);
+				that.playerViewModel.receiveCommand("setVolume", {volume: volume});
+			},
 		});
 		
 		//Connect backend with front end
@@ -65,10 +70,15 @@ function($, ko, config, PlayerViewModel, SIO, SK, app){
 			var dump = dumpPlayerState.call(this);
 			this.sio.executeCommand("playerStateDumped", {dump:dump});
 		} else {
-			this.sk.executeCommand(command, options);
+			this.sk.executeCommand(command, options.data);
 		}
 	};
 	
+	var setVolume = function(volume){
+		if(volume != this.playerViewModel.volume()){
+			sendToSIO.call(this, "setVolume", {volume: volume}); 
+		}
+	}
 	/* 
 		Loads player. Right now only sio.
 	*/

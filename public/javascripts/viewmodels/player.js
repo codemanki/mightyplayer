@@ -98,6 +98,10 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 				case "playing":
 					playing.call(this, options);
 				break;
+				
+				case "onSetVolume":
+					setVolume.call(this, options)
+				break;
 			}
 		};
 		
@@ -120,12 +124,15 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 			this.playerStatus(1);
 		};
 		
-		var playing = function(options) {
-			this.trackPosition(options.position);
-			
+		var setVolume = function(options){
 			if(this.volume() != options.volume){
 				this.volume(options.volume)
 			}
+		};
+		
+		var playing = function(options) {
+			this.trackPosition(options.position);
+
 		};	
 		
 		var selectTrackById = function(trackId) {
