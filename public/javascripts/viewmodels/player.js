@@ -10,7 +10,7 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 		this.executeCommand = ko.observable({command: null, data: null}); //event for objects to subscribe for changes on ui
 		this.trackPosition = ko.observable(0); //if player is playing, onplay event dumps current track duration here
 		
-		this.currentVolumeLevel = ko.observable(3);
+		this.volume = ko.observable(3);
 		
 		//Return track position in readabale format e.g. 02:12
 		this.trackPositionReadable = ko.computed(function() {
@@ -55,6 +55,10 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 			that.executeCommand({command: "playTrack", data: {trackId:track.trackId}});
 		};
 		
+		this.triggerVolumeChange = function(){
+			that.executeCommand({command: "setVolume", data: {volume: this.volume()}});
+		};
+		
 		this.addPlaylist = function(rawPlaylist) {
 			this.playlists.push(new PlaylistViewModel(rawPlaylist));
 		};
@@ -92,7 +96,7 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 				break;
 				
 				case "playing":
-					playing.call(this, options.position, options.duration);
+					playing.call(this, options);
 				break;
 			}
 		};
@@ -116,8 +120,12 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 			this.playerStatus(1);
 		};
 		
-		var playing = function(trackPosition, trackDuration) {
-			this.trackPosition(trackPosition);
+		var playing = function(options) {
+			this.trackPosition(options.position);
+			
+			if(this.volume() != options.volume){
+				this.volume(options.volume)
+			}
 		};	
 		
 		var selectTrackById = function(trackId) {
@@ -136,7 +144,7 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 			this.playerStatus(null);
 			this.executeCommand({command: null, data: null});
 			this.trackPosition(0);
-			//this.currentVolumeLevel(3); think about it
+			//this.volume(3); think about it
 		};
 	};
 	return playerViewModel;

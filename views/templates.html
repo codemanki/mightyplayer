@@ -134,7 +134,7 @@
 </script>
 
 <script type="text/html" id="volumeControl">
-<div class="volumeContainer" data-bind="volumeControl: {volume: currentVolumeLevel}">
+<div class="volumeContainer" data-bind="volumeControl: {volume: volume, trigger: triggerVolumeChange}">
 	<span>Volume:</span>
 	<div class="btn-group">
 		<div class="btn" data-set="down"><i class="icon-minus"></i></div>

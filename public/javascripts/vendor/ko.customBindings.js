@@ -76,7 +76,7 @@ define(['ko', 'jqrcode'], function(ko){
 		init: function(element, valueAccessor, _, viewModel){
 			var options = valueAccessor();
 			var btns = $(element).find(".btn");
-						//{volume: currentVolumeLevel(), decrease: volumeDown, increase: volumeUp}
+						
 			btns.on("click", function(){
 				var toSet = $(this).data("set");
 				var currentVolume = options.volume;
@@ -94,6 +94,7 @@ define(['ko', 'jqrcode'], function(ko){
 				}
 				
 				options.volume(_v);
+				options.trigger.call(viewModel, _v);
 			});
 		
 			//and set volume from view model

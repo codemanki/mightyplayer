@@ -28,7 +28,8 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 		this.playlist = playList;
 		this.status = -1; // -1 stopped, 0: paused, 1: playing
 		this.currentTrack = 0;
-
+		this.volume = 60; // level 3 * 20
+		
 		//TODO: This dependency should be moved somewhere
 		var getStreamUrl = function(track){
 			return track.stream_url + "?client_id=" + config.getConfig("clientId");
@@ -44,6 +45,7 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 				   	autoPlay: false,
 				   	autoLoad: true,
 					stream: true,
+					volume: volume.call(that),
 					url: getStreamUrl(track),
 					onplay: function(){
 						that.events.onPlay(this.id);
@@ -58,7 +60,7 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 						that.events.onStop(this.id);
 					},
 					whileplaying: function(){
-						that.events.onPlaying(this.id, {position: this.position, duration: track.__duration, obj:this});
+						that.events.onPlaying(this.id, {position: this.position, duration: track.__duration, volume: volumeToLevel(this.volume)});
 					},
 					onfinish: function(){
 						if(that.currentTrack == that.tracks.length - 1){
@@ -149,9 +151,29 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 			case "changeTrackPosition":
 				setPosition.call(this, options.position);
 			break;
+			
+			case "setVolume":
+				volume.call(this, options.volume)
+			break
 		}
 	};
+	
 	/* private methods */
+	function volumeToLevel(value){
+		return ~~(value/20)
+	};
+	function volume(newValue){
+		if(newValue === undefined)
+			return volumeToLevel(this.volume);
+		
+		if(newValue >= 0 && newValue <= 5){
+			this.volume = newValue * 20;
+			
+			if(this.status != -1){
+				this.tracks[this.currentTrack].setVolume(this.volume);
+			}
+		}
+	}
 	
 	/* 
 		Stops playing, unloads tracks
@@ -178,7 +200,6 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 		var track = this.tracks[this.currentTrack],
 			duration = track.__duration, //since duration is dynamic property, use estimated
 			toSet = ~~((position * duration)/100);
-			console.log(duration);
 			
 		track.setPosition(toSet);
 	}
@@ -205,6 +226,7 @@ define(["jquery", "config", "soundmanager2"], function($, config, soundManager){
 		
 		this.currentTrack = index;
 		this.status = 1;
+		this.tracks[index].setVolume(this.volume);
 		this.tracks[index].start();
 	}
 	
