@@ -58,14 +58,15 @@ io.sockets.on('connection', function (socket) {
 		socket.emit('receivetoken', {token: token});
 		if(!users[token])
 			users[token] = [];
-		users[token].push(socket.id);
+		users[token].push({sid: socket.id});
 		console.log(users);
 	});
 	
   	socket.on('command', function(data){
 		console.log("recieved command", data);
 		//Forward message to everyone except myself
-		var c = function(sid){
+		var c = function(client){
+			var sid = client.sid;
 			console.log(sid, socket.id);
 			if(sid && sid != socket.id) {
 				console.log("sending command ", data, "to", sid);
@@ -85,7 +86,7 @@ io.sockets.on('connection', function (socket) {
 			var sids = users[key];
 			
 			for(var j = 0; j < sids.length; j++){
-				var sid = sids[j];
+				var sid = sids[j].sid;
 				
 				if(sid == socket.id) {
 					sids[j] = null;
@@ -105,7 +106,9 @@ var forEachUser = function(token, callback){
 	var l = users[token].length;
 	
 	for(var i = 0; i < l; i++){
-		var sid = users[token][i];
-		callback(sid, i, users[token]);
+		var client = users[token][i];
+		
+		if(client)
+			callback(client, i, users[token]);
 	}
 };
