@@ -83,13 +83,13 @@ io.sockets.on('connection', function (socket) {
 		//Go through all socket ids, found one that gets disconnected and replace with null
 		for(var i = 0; i < keys.length; i++){
 			var key = keys[i];
-			var sids = users[key];
+			var clients = users[key];
 			
-			for(var j = 0; j < sids.length; j++){
-				var sid = sids[j].sid;
+			for(var j = 0; j < clients.length; j++){
+				var client = clients[j];
 				
-				if(sid == socket.id) {
-					sids[j] = null;
+				if(client && client.sid == socket.id) {
+					clients[j] = null;
 					break;
 				}
 			}

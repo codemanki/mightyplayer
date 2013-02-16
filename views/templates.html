@@ -74,7 +74,7 @@
 		<th class="span2">Tracks #</th>
 	</thead>
 	<tbody data-bind="foreach: playlists">
-		<tr data-bind="stripyClass: {isEven: $index()%2, oddClass: 'warning', evenClass: 'info'}, click: $parent.selectPlaylist" class="cursorPointer">
+		<tr data-bind="css: {'success': ($parent.currentPlaylist() && $root.currentPlaylist().playlistId == playlistId)}, click: $parent.selectPlaylist" class="cursorPointer">
 			<td data-bind="text: title"></td>
 			<td data-bind="text: numberOfTracks()"></td>
 		</tr>
