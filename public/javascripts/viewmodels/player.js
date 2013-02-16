@@ -99,7 +99,7 @@ define(['ko', 'playlistViewModel', 'customBindings'], function(ko, PlaylistViewM
 					playing.call(this, options);
 				break;
 				
-				case "onSetVolume":
+				case "setVolume":
 					setVolume.call(this, options)
 				break;
 			}
